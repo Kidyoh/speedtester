@@ -24,9 +24,9 @@ function Speed() {
             autoStart: true,
             measurements: [
                 { type: 'latency', numPackets: 1 },
-                { type: 'download', bytes: 1e6, count: 8 },
-                { type: 'upload', bytes: 1e5, count: 8 },
-                { type: 'packetLoss', numPackets: 1e3},
+                { type: 'download', bytes: 1e3, count: 3},
+                { type: 'upload', bytes: 1e3, count: 3},
+
             ],
         });
         speedTest.onRunningChange = isRunning => {
@@ -75,7 +75,7 @@ function Speed() {
 
     return (
         <div className="container mt-5 p-5 bg-slate-400 rounded-xl">
-            <h1 className="text-2xl mb-4">Speed Test Results</h1>
+            <h1 className="text-2xl mb-4">Shega Internet Speed Test</h1>
             <button
                 onClick={startSpeedTest}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -83,6 +83,7 @@ function Speed() {
             >
                 Start Test
             </button>
+           
             {running ? (
                 <div className="flex flex-wrap justify-center md:flex-row flex-col">
                     <div className="loading"></div>
@@ -90,6 +91,7 @@ function Speed() {
                 </div>
             ) : (
                 <div className='flex flex-wrap justify-center'>
+                    
                     <div className='m-3 pb-40'>
                         <div style={{ height: '100px' }}>
                             <Speedometer
@@ -135,22 +137,26 @@ function Speed() {
                  
                 </div>
             )}
-   <div>
-                        {ipAddress && (
-                            <p className="mt-8">Your IP Address: {ipAddress}</p>
-                        )}
-                        {result && result.scores && (
-                            <div className='mt-8'>
-                                <h2>AIM Scores:</h2>
-                                <p>Streaming Points: {result.scores.streaming.points}, Classification: {result.scores.streaming.classificationName}</p>
-                                <p>Gaming Points: {result.scores.gaming.points}, Classification: {result.scores.gaming.classificationName}</p>
-                                <p>RTC Points: {result.scores.rtc.points}, Classification: {result.scores.rtc.classificationName}</p>
-                            </div>
-                        )}
+   <div className='border rounded-md p-2 mt-8 bg-white shadow-lg mx-w-md mx-auto'>
+  {ipAddress && (
+    <p className="mt-2">Your IP Address: {ipAddress}</p>
+  )}
+  {result && result.scores && (
+    <div className='mt-4'>
+      <h2 className="text-xl font-bold mb-2">AIM Scores:</h2>
+      <div className="mb-2">
+        <p>Streaming Points: {result.scores.streaming.points}, Classification: {result.scores.streaming.classificationName}</p>
+      </div>
+      <div className="mb-2">
+        <p>Gaming Points: {result.scores.gaming.points}, Classification: {result.scores.gaming.classificationName}</p>
+      </div>
+      <div>
+        <p>RTC Points: {result.scores.rtc.points}, Classification: {result.scores.rtc.classificationName}</p>
+      </div>
+    </div>
+  )}
+</div>
 
-
-
-                    </div>
 
         </div>
     );
