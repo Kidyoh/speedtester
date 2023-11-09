@@ -24,13 +24,9 @@ function Speed() {
             autoStart: true,
             measurements: [
                 { type: 'latency', numPackets: 1 },
-                { type: 'download', bytes: 1e5, count: 1, bypassMinDuration: true },
-                { type: 'latency', numPackets: 20 },
-                { type: 'download', bytes: 1e5, count: 9 },
                 { type: 'download', bytes: 1e6, count: 8 },
                 { type: 'upload', bytes: 1e5, count: 8 },
-                { type: 'packetLoss', numPackets: 1e3, responsesWaitTime: 3000 },
-                { type: 'upload', bytes: 1e6, count: 6 },
+                { type: 'packetLoss', numPackets: 1e3},
             ],
         });
         speedTest.onRunningChange = isRunning => {
@@ -78,7 +74,7 @@ function Speed() {
 
 
     return (
-        <div className="container mx-auto mt-5 p-5">
+        <div className="container mt-5 p-5 bg-slate-400 rounded-xl">
             <h1 className="text-2xl mb-4">Speed Test Results</h1>
             <button
                 onClick={startSpeedTest}
@@ -88,17 +84,18 @@ function Speed() {
                 Start Test
             </button>
             {running ? (
-                <div className="flex items-center m-44 justify-center">
+                <div className="flex flex-wrap justify-center md:flex-row flex-col">
                     <div className="loading"></div>
                     <p className="ml-2">Testing...</p>
                 </div>
             ) : (
                 <div className='flex flex-wrap justify-center'>
-                    <div className='m-3'>
+                    <div className='m-3 pb-40'>
                         <div style={{ height: '100px' }}>
                             <Speedometer
                                 value={result ? result.download : currentDownloadSpeed}
                                 fontFamily='squada-one'
+                                
                             >
                                 <Background />
                                 <Arc arcWidth={0.2} />
@@ -114,7 +111,8 @@ function Speed() {
                             )}
                         </div>
                     </div>
-                    <div className='m-44'>
+                
+                    <div className='m-3 pb-36'>
                         <div style={{ height: '100px' }}>
                             <Speedometer
                                 value={result ? result.upload : currentUploadSpeed}
@@ -134,7 +132,10 @@ function Speed() {
                             )}
                         </div>
                     </div>
-                    <div>
+                 
+                </div>
+            )}
+   <div>
                         {ipAddress && (
                             <p className="mt-8">Your IP Address: {ipAddress}</p>
                         )}
@@ -150,9 +151,6 @@ function Speed() {
 
 
                     </div>
-                </div>
-            )}
-
 
         </div>
     );
