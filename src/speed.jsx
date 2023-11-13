@@ -9,12 +9,21 @@ import Speedometer, {
     Indicator,
 } from 'react-speedometer';
 
+
 function Speed() {
     const [result, setResult] = useState(null);
     const [running, setRunning] = useState(false);
     const [ipAddress, setIpAddress] = useState(null);
     const [currentDownloadSpeed, setCurrentDownloadSpeed] = useState(0);
     const [currentUploadSpeed, setCurrentUploadSpeed] = useState(0);
+    const [isp, setISP] = useState(null);
+    const [country, setCountry] = useState(null);
+    const [city, setCity] = useState(null);
+    const [region, setRegion] = useState(null);
+    const [zip, setZip] = useState(null);
+    const [timezone, setTimezone] = useState(null);
+    const [org, setOrg] = useState(null);
+    const [as, setAs] = useState(null);
 
     const startSpeedTest = () => {
         setResult(null);
@@ -33,9 +42,24 @@ function Speed() {
             setRunning(isRunning);
         };
         fetch('https://api.ipify.org/')
-            .then(response => response.text())
-            .then(data => setIpAddress(data))
-            .catch(error => console.error('Error fetching IP address:', error));
+    .then(response => response.text())
+    .then(ip => {
+        setIpAddress(ip);
+        return fetch(`http://ip-api.com/json/${ip}`);
+    })
+    .then(response => response.json())
+    .then(data => {
+        setISP(data.isp);
+        setCountry(data.country);
+        setCity(data.city);
+        setRegion(data.regionName);
+        setZip(data.zip);
+        setTimezone(data.timezone);
+        setOrg(data.org);
+        setAs(data.as);
+    
+    })
+    .catch(error => console.error('Error fetching IP address:', error));
         speedTest.onResultsChange = () => {
             if (!speedTest.isFinished) {
                 const rawResults = speedTest.results.raw;
@@ -60,12 +84,15 @@ function Speed() {
         };
         speedTest.onFinish = results => {
             const summary = results.getSummary();
+            console.log(summary)
             const scores = results.getScores();
             setResult({
                 ...summary,
                 download: summary.download / 1000000,
                 upload: summary.upload / 1000000,
                 scores,
+                latency : summary.latency,
+                
             });
             console.log(scores)
         };
@@ -137,8 +164,32 @@ function Speed() {
   <div className='border rounded-md p-4 bg-white shadow-lg mt-9'>
   {ipAddress && (
     <p className="mt-2">Your IP Address: {ipAddress}</p>
-  )}
-  {result && result.scores && (
+)}
+{isp && (
+    <p className="mt-2">Your ISP: {isp}</p>
+)}
+{country && (
+    <p className="mt-2">Your Country: {country}</p>
+)}
+{city && (
+    <p className="mt-2">Your City: {city}</p>
+)}
+{region && (
+    <p className="mt-2">Your Region: {region}</p>
+)}
+{zip && (
+    <p className="mt-2">Your Postal Code: {zip}</p>
+)}
+{timezone && (
+    <p className="mt-2">Your Timezone: {timezone}</p>
+)}
+{org && (
+    <p className="mt-2">Your Organization: {org}</p>
+)}
+{as && (
+    <p className="mt-2">Your AS: {as}</p>
+)}
+  {result && result.scores && result.latency &&(
     <div className='mt-4'>
       <h2 className="text-xl font-bold mb-2">AIM Scores:</h2>
       <div className="mb-2">
