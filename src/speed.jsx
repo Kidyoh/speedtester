@@ -33,8 +33,8 @@ function Speed() {
             autoStart: true,
             measurements: [
                 { type: 'latency', numPackets: 1 },
-                { type: 'download', bytes: 1e6, count: 5 },
-                { type: 'upload', bytes: 1e5, count: 5 },
+                { type: 'download', bytes: 1e6, count: 8 },
+                { type: 'upload', bytes: 1e5, count: 8 },
                 { type: 'packetLoss', numPackets: 1e3},
             ],
         });
