@@ -45,7 +45,7 @@ function Speed() {
     .then(response => response.text())
     .then(ip => {
         setIpAddress(ip);
-        return fetch(`http://ip-api.com/json/${ip}`);
+        return fetch(`https://ip-api.com/json/${ip}`);
     })
     .then(response => response.json())
     .then(data => {
